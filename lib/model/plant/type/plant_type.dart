@@ -6,6 +6,7 @@ enum PlantType {
   carnivorous,
   climbers,
   ferns,
+  fern, //TODO:Delete after drop database
   grasses,
   trees,
 }

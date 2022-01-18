@@ -17,7 +17,6 @@ class Plant with _$Plant {
     return Plant(
       name: entity.name,
       type: PlantType.values.firstWhere((element) => describeEnum(element) == entity.type),
-      //TODO: Make it an extension method
       plantingDate: DateTime.parse(entity.plantingDate),
     );
   }

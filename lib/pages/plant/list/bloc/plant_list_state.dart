@@ -1,10 +1,20 @@
 part of 'plant_list_bloc.dart';
 
-abstract class PlantListState extends Equatable {
-  const PlantListState();
+enum PlantListStateType {
+  initial,
+  inProgress,
+  fetched,
 }
 
-class PlantListInitial extends PlantListState {
+class PlantListState extends Equatable {
+  final PlantListStateType type;
+  final List<Plant> plants;
+
+  const PlantListState({
+    required this.type,
+    this.plants = const [],
+  });
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [type, plants];
 }
