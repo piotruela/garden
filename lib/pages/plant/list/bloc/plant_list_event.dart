@@ -9,17 +9,34 @@ class InitializePage extends PlantListEvent {
   List<Object?> get props => [];
 }
 
-class FetchMoreElements extends PlantListEvent {
+class ThresholdReached extends PlantListEvent {
+  final String? searchText;
+
+  const ThresholdReached({this.searchText});
+
+  @override
+  List<Object?> get props => [searchText];
+}
+
+class AddPlantButtonPressed extends PlantListEvent {
   @override
   List<Object?> get props => [];
 }
 
-class AddPlant extends PlantListEvent {
+class PlantTilePressed extends PlantListEvent {
+  final Plant plant;
+
+  const PlantTilePressed(this.plant);
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [plant];
 }
 
-class EditPlant extends PlantListEvent {
+class SearchTextChanged extends PlantListEvent {
+  final String searchText;
+
+  const SearchTextChanged(this.searchText);
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [searchText];
 }

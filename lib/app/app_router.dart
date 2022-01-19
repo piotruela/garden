@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:garden/model/plant/plant.dart';
 import 'package:garden/pages/plant/list/plant_list_page.dart';
+import 'package:garden/pages/plant/upsert/plant_upsert_page.dart';
 
 part 'app_router.gr.dart';
 
@@ -8,6 +10,7 @@ part 'app_router.gr.dart';
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
     AutoRoute(page: PlantListPage, initial: true),
+    AutoRoute(page: PlantUpsertPage),
   ],
 )
 class AppRouter extends _$AppRouter {}

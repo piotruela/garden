@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:garden/common/constants/app_colors.dart';
 import 'package:garden/common/constants/app_decoration.dart';
 import 'package:garden/common/constants/app_text.dart';
-import 'package:garden/common/widget/rounded_button.dart';
+import 'package:garden/common/widget/app_app_bar.dart';
+import 'package:garden/pages/plant/list/bloc/plant_list_bloc.dart';
 import 'package:garden/pages/plant/list/view/widgets/plant_list_body.dart';
 
 class PlantListView extends StatelessWidget {
@@ -11,18 +13,13 @@ class PlantListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.primary,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          "Garden",
-          style: AppText.primaryText.copyWith(fontSize: 24),
-        ),
-        actions: [
-          RoundedButton(label: "+ Add plant", onPressed: () {}),
-          const SizedBox(width: 16),
-        ],
+      appBar: AppAppBar(
+        title: "Garden",
+        buttonLabel: "+ Add plant",
         bottom: const _AppBarSearchField(),
+        onActionButtonPressed: () => context.read<PlantListBloc>().add(AddPlantButtonPressed()),
       ),
       body: const PlantListBody(),
     );
@@ -51,6 +48,7 @@ class _AppBarSearchField extends StatelessWidget with PreferredSizeWidget {
             border: AppDecoration.enabledBorder,
             focusedBorder: AppDecoration.focusedBorder,
           ),
+          onChanged: (value) => context.read<PlantListBloc>().add(SearchTextChanged(value)),
         ),
       ),
     );

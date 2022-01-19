@@ -12,7 +12,6 @@ dependencies:
   floor: ^1.2.0
   get_it: ^7.2.0
   auto_route: ^3.2.1
-  provider: ^6.0.2
   flutter_bloc: ^8.0.1
   equatable: ^2.0.3
   flutter_svg: ^1.0.1
