@@ -30,7 +30,12 @@ class PlantListBloc extends Bloc<PlantListEvent, PlantListState> {
   ) async {
     emit(PlantListState.inProgress());
     final result = await _plantService.getPlants(offset: 0);
-    emit(PlantListState.fetchedData(plants: result));
+    emit(
+      result.fold(
+        (failure) => PlantListState.fetchingError(),
+        (plantsList) => PlantListState.fetchedData(plants: plantsList),
+      ),
+    );
   }
 
   void _onSearchTextChanged(
@@ -39,7 +44,12 @@ class PlantListBloc extends Bloc<PlantListEvent, PlantListState> {
   ) async {
     final searchText = event.searchText.takeIf((it) => it.isNotEmpty);
     final result = await _plantService.getPlants(searchText: searchText, offset: 0);
-    emit(PlantListState.fetchedData(plants: result, searchText: searchText));
+    emit(
+      result.fold(
+        (failure) => PlantListState.fetchingError(),
+        (plantsList) => PlantListState.fetchedData(plants: plantsList, searchText: searchText),
+      ),
+    );
   }
 
   void _onThresholdReached(
@@ -48,11 +58,17 @@ class PlantListBloc extends Bloc<PlantListEvent, PlantListState> {
   ) async {
     if (state is PlantListStateReachedEnd) return;
     final result = await _plantService.getPlants(searchText: event.searchText, offset: state.plants.length);
-    if (result.isEmpty) {
-      emit(PlantListState.reachedEnd(searchText: state.searchText, plants: state.plants));
-      return;
-    }
-    emit(state.copyWith(plants: List<Plant>.from(state.plants)..addAll(result), searchText: state.searchText));
+    emit(
+      result.fold(
+        (failure) => PlantListState.fetchingError(),
+        (plantsList) => plantsList.isEmpty
+            ? PlantListState.reachedEnd(searchText: state.searchText, plants: state.plants)
+            : PlantListState.fetchedData(
+                plants: List<Plant>.from(state.plants)..addAll(plantsList),
+                searchText: state.searchText,
+              ),
+      ),
+    );
   }
 
   void _onMoveToUpsertPage(
@@ -63,7 +79,7 @@ class PlantListBloc extends Bloc<PlantListEvent, PlantListState> {
     if (result == null) return;
     emit(
       result.fold(
-        (exception) => PlantListState.upsertError(plants: state.plants),
+        (failure) => PlantListState.upsertError(plants: state.plants),
         (plant) => PlantListState.upsertSuccess(
           plants: state.plants,
           plant: plant,

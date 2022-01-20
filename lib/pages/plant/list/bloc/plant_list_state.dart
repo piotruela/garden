@@ -22,6 +22,11 @@ class PlantListState with _$PlantListState {
     String? searchText,
   }) = PlantListStateFetchedData;
 
+  factory PlantListState.fetchingError({
+    @Default([]) List<Plant> plants,
+    String? searchText,
+  }) = PlantListStateFetchingError;
+
   factory PlantListState.reachedEnd({
     @Default([]) List<Plant> plants,
     String? searchText,

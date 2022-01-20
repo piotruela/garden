@@ -11,14 +11,18 @@ class PlantService {
 
   PlantService(this.dao, this.uuid);
 
-  Future<List<Plant>> getPlants({String? searchText, required int offset}) async {
+  Future<Either<DatabaseFailure, List<Plant>>> getPlants({String? searchText, required int offset}) async {
     List<en.Plant> plantsList;
-    if (searchText != null) {
-      plantsList = await dao.searchPlants("%$searchText%", offset, 10);
-    } else {
-      plantsList = await dao.getPlants(offset, 10);
+    try {
+      if (searchText != null) {
+        plantsList = await dao.searchPlants("%$searchText%", offset, 10);
+      } else {
+        plantsList = await dao.getPlants(offset, 10);
+      }
+      return Right(plantsList.map((e) => Plant.fromEntity(e)).toList());
+    } catch (_) {
+      return Left(DatabaseFailure());
     }
-    return plantsList.map((e) => Plant.fromEntity(e)).toList();
   }
 
   Future<Either<DatabaseFailure, Plant>> insertPlant(Plant plant) async {
