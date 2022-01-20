@@ -1,10 +1,17 @@
-part of 'plant_upsert_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:garden/model/plant/type/plant_type.dart';
 
-abstract class PlantUpsertState extends Equatable {
-  const PlantUpsertState();
-}
+part 'plant_upsert_state.freezed.dart';
 
-class PlantUpsertInitial extends PlantUpsertState {
-  @override
-  List<Object> get props => [];
+enum PlantUpsertStateType { initial, submitting }
+
+@freezed
+class PlantUpsertState with _$PlantUpsertState {
+  factory PlantUpsertState({
+    required PlantUpsertStateType type,
+    String? plantId,
+    String? plantName,
+    PlantType? plantType,
+    DateTime? plantingDate,
+  }) = _PlantUpsertState;
 }

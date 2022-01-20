@@ -1,6 +1,7 @@
 import 'package:garden/app/app_database.dart';
 import 'package:garden/service/plant_service.dart';
 import 'package:get_it/get_it.dart';
+import 'package:uuid/uuid.dart';
 
 class AppInjector {
   const AppInjector._();
@@ -9,6 +10,7 @@ class AppInjector {
     final getIt = GetIt.I;
     getIt
       ..registerSingleton(appDatabase.plantDao)
-      ..registerSingleton(PlantService(getIt.get()));
+      ..registerSingleton(const Uuid())
+      ..registerSingleton(PlantService(getIt.get(), getIt.get()));
   }
 }

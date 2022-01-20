@@ -2,8 +2,8 @@ import 'package:floor/floor.dart';
 
 @entity
 class Plant {
-  @primaryKey
-  final int id;
+  @PrimaryKey()
+  final String id;
 
   final String name;
   final String type;

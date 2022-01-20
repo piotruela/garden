@@ -18,6 +18,7 @@ class PlantTypeLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 32,
       decoration: isSelected ? selectedDecoration : unselectedDecoration,
       child: Padding(
         padding: const EdgeInsets.all(8.0),

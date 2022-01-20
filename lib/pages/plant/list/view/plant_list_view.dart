@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:garden/common/constants/app_colors.dart';
 import 'package:garden/common/constants/app_decoration.dart';
 import 'package:garden/common/constants/app_text.dart';
 import 'package:garden/common/widget/app_app_bar.dart';
+import 'package:garden/common/widget/app_snack_bar.dart';
 import 'package:garden/pages/plant/list/bloc/plant_list_bloc.dart';
+import 'package:garden/pages/plant/list/bloc/plant_list_state.dart';
 import 'package:garden/pages/plant/list/view/widgets/plant_list_body.dart';
 
 class PlantListView extends StatelessWidget {
@@ -19,9 +22,30 @@ class PlantListView extends StatelessWidget {
         title: "Garden",
         buttonLabel: "+ Add plant",
         bottom: const _AppBarSearchField(),
-        onActionButtonPressed: () => context.read<PlantListBloc>().add(AddPlantButtonPressed()),
+        onActionButtonPressed: () => context.read<PlantListBloc>().add(const MoveToUpsertPage()),
       ),
-      body: const PlantListBody(),
+      body: BlocConsumer<PlantListBloc, PlantListState>(
+        listener: (BuildContext context, state) {
+          state.maybeMap(
+            successfullyAdded: (state) {
+              AppSnackBar(content: Text("Successfully added plant of name: ${state.plant.name}")).show(context);
+              context.read<PlantListBloc>().add(InitializePage());
+            },
+            upsertError: (_) {
+              AppSnackBar(backgroundColor: AppColors.error, content: const Text("There was an error :C")).show(context);
+              context.read<PlantListBloc>().add(InitializePage());
+            },
+            orElse: () {},
+          );
+        },
+        builder: (BuildContext context, state) {
+          return state.maybeMap(
+            fetchedData: (fetchedDataState) => PlantListBody(state: fetchedDataState),
+            reachedEnd: (reachedEndState) => PlantListBody(state: reachedEndState),
+            orElse: () => const Center(child: SpinKitThreeBounce(color: AppColors.lightBrown, size: 17)),
+          );
+        },
+      ),
     );
   }
 }

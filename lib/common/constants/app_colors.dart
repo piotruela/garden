@@ -9,6 +9,7 @@ class AppColors {
   static const Color lightBrown = Color(0xffbd9b5e);
   static const Color lightGrey = Color(0xfff0f0f0);
   static const Color darkGrey = Color(0xff959292);
+  static const Color error = Color(0xffA85959);
 
   static Color getTypeColor(PlantType type) {
     switch (type) {
@@ -19,9 +20,17 @@ class AppColors {
       case PlantType.bulbs:
         return const Color(0xff9C8760);
       case PlantType.carnivorous:
-        return const Color(0xffF381B1);
-      default:
-        return const Color(0xff688393);
+        return const Color(0xffFF4191);
+      case PlantType.climbers:
+        return Colors.red;
+      case PlantType.ferns:
+        return Colors.purple;
+      case PlantType.trees:
+        return Colors.teal;
+      case PlantType.succulents:
+        return Colors.orange;
+      case PlantType.grasses:
+        return Colors.green;
     }
   }
 }

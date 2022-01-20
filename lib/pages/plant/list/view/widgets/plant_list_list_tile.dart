@@ -18,7 +18,7 @@ class PlantListListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.read<PlantListBloc>().add(PlantTilePressed(plant)),
+      onTap: () => context.read<PlantListBloc>().add(MoveToUpsertPage(existingPlant: plant)),
       child: Container(
         decoration: const BoxDecoration(
           color: Colors.white,

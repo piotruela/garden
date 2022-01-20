@@ -7,7 +7,10 @@ part 'plant.freezed.dart';
 
 @freezed
 class Plant with _$Plant {
+  const Plant._();
+
   factory Plant({
+    String? id,
     required String name,
     required PlantType type,
     required DateTime plantingDate,
@@ -15,9 +18,19 @@ class Plant with _$Plant {
 
   factory Plant.fromEntity(en.Plant entity) {
     return Plant(
+      id: entity.id,
       name: entity.name,
       type: PlantType.values.firstWhere((element) => describeEnum(element) == entity.type),
       plantingDate: DateTime.parse(entity.plantingDate),
+    );
+  }
+
+  en.Plant toEntity({String? id}) {
+    return en.Plant(
+      id ?? this.id!,
+      name,
+      describeEnum(type),
+      plantingDate.toString(),
     );
   }
 }

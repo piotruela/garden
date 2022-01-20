@@ -1,24 +1,46 @@
-part of 'plant_list_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:garden/model/plant/plant.dart';
+
+part 'plant_list_state.freezed.dart';
 
 enum PlantListStateType {
   initial,
   inProgress,
   fetched,
+  successfullyAdded,
+  successfullyEdited,
 }
 
-class PlantListState extends Equatable {
-  final PlantListStateType type;
-  final List<Plant> plants;
-  final String? searchText;
-  final bool hasReachedEnd;
+@freezed
+class PlantListState with _$PlantListState {
+  factory PlantListState.initial({
+    @Default([]) List<Plant> plants,
+    String? searchText,
+  }) = PlantListStateInitial;
 
-  const PlantListState({
-    required this.type,
-    this.searchText,
-    this.hasReachedEnd = false,
-    this.plants = const [],
-  });
+  factory PlantListState.inProgress({
+    @Default([]) List<Plant> plants,
+    String? searchText,
+  }) = PlantListStateInProgress;
 
-  @override
-  List<Object?> get props => [type, plants, searchText, hasReachedEnd];
+  factory PlantListState.fetchedData({
+    @Default([]) List<Plant> plants,
+    String? searchText,
+  }) = PlantListStateFetchedData;
+
+  factory PlantListState.reachedEnd({
+    @Default([]) List<Plant> plants,
+    String? searchText,
+  }) = PlantListStateReachedEnd;
+
+  factory PlantListState.successfullyAdded({
+    @Default([]) List<Plant> plants,
+    String? searchText,
+    required Plant plant,
+  }) = PlantListStateSuccessfullyAdded;
+
+  factory PlantListState.upsertError({
+    @Default([]) List<Plant> plants,
+    String? searchText,
+  }) = PlantListStateUpsertError;
 }

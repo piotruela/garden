@@ -17,8 +17,12 @@ class PlantUpsertPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final navigator = AutoRouter.of(context);
     return BlocProvider(
-      create: (BuildContext context) => PlantUpsertBloc(onSaveButtonPressed: () => navigator.pop()),
+      create: (BuildContext context) => PlantUpsertBloc(
+        existingPlant: existingPlant,
+        onPlantInserted: (result) => navigator.pop(result),
+      ),
       child: PlantUpsertView(isEdit: existingPlant != null),
+      lazy: false,
     );
   }
 }
