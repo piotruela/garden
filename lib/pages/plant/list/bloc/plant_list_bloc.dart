@@ -64,7 +64,11 @@ class PlantListBloc extends Bloc<PlantListEvent, PlantListState> {
     emit(
       result.fold(
         (exception) => PlantListState.upsertError(plants: state.plants),
-        (plant) => PlantListState.successfullyAdded(plants: state.plants, plant: plant),
+        (plant) => PlantListState.upsertSuccess(
+          plants: state.plants,
+          plant: plant,
+          upsertType: event.existingPlant != null ? UpsertType.update : UpsertType.insert,
+        ),
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:garden/common/widget/rounded_button.dart';
 class AppAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final String buttonLabel;
+  final bool isActionButtonActive;
   final PreferredSizeWidget? bottom;
 
   final Function() onActionButtonPressed;
@@ -13,6 +14,7 @@ class AppAppBar extends StatelessWidget with PreferredSizeWidget {
     Key? key,
     required this.title,
     required this.buttonLabel,
+    this.isActionButtonActive = true,
     this.bottom,
     required this.onActionButtonPressed,
   }) : super(key: key);
@@ -29,6 +31,7 @@ class AppAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: [
         RoundedButton(
           label: buttonLabel,
+          isActive: isActionButtonActive,
           onPressed: onActionButtonPressed,
         ),
         const SizedBox(width: 16),

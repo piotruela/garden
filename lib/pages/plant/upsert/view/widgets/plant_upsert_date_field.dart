@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:garden/common/constants/app_colors.dart';
 import 'package:garden/common/constants/app_decoration.dart';
 import 'package:garden/common/constants/app_text.dart';
+import 'package:garden/extensions.dart';
 import 'package:garden/pages/plant/upsert/bloc/plant_upsert_bloc.dart';
 import 'package:garden/pages/plant/upsert/bloc/plant_upsert_state.dart';
 import 'package:intl/intl.dart';
@@ -17,12 +18,15 @@ class PlantUpsertDateField extends StatelessWidget {
         return SizedBox(
           height: 46,
           child: GestureDetector(
-            onTap: () => selectDate(context, state),
+            onTap: () {
+              context.unFocus();
+              selectDate(context, state);
+            },
             child: TextField(
               enabled: false,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.zero,
-                prefixIcon: const Icon(Icons.calendar_today),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
+                suffixIcon: const Icon(Icons.calendar_today),
                 hintStyle: AppText.primaryText.copyWith(fontSize: 18),
                 hintText: state.plantingDate != null ? DateFormat("dd/MM/yyyy").format(state.plantingDate!) : "",
                 disabledBorder: AppDecoration.focusedBorder,

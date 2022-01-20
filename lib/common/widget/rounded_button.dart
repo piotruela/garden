@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:garden/common/constants/app_colors.dart';
 import 'package:garden/common/constants/app_text.dart';
 
 class RoundedButton extends StatelessWidget {
   final String label;
-  final bool isLoading;
+  final bool isActive;
 
   final Function() onPressed;
 
   const RoundedButton({
     Key? key,
     required this.label,
-    this.isLoading = false,
+    this.isActive = true,
     required this.onPressed,
   }) : super(key: key);
 
@@ -23,15 +22,23 @@ class RoundedButton extends StatelessWidget {
       children: [
         InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(20)),
-          onTap: onPressed,
+          onTap: isActive ? onPressed : () {},
           child: Container(
-            decoration:
-                const BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.all(Radius.circular(20))),
+            decoration: BoxDecoration(
+              color: isActive ? AppColors.primary : AppColors.lightGrey.withOpacity(0.5),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              boxShadow: isActive
+                  ? [BoxShadow(color: Colors.grey.withOpacity(0.5), offset: const Offset(2, 4), blurRadius: 3)]
+                  : null,
+            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
-              child: isLoading
-                  ? const SpinKitThreeBounce(size: 10, color: Colors.white)
-                  : Text(label, style: AppText.secondaryTextBold.copyWith(color: AppColors.darkGreen)),
+              child: Text(
+                label,
+                style: AppText.secondaryTextBold.copyWith(
+                  color: isActive ? AppColors.darkGreen : AppColors.darkGrey,
+                ),
+              ),
             ),
           ),
         ),

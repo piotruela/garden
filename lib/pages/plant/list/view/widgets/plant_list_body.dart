@@ -45,7 +45,7 @@ class _PlantsListWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ListView.separated(
-          padding: const EdgeInsets.only(top: 16),
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
           itemCount: state.plants.length,
           itemBuilder: (BuildContext context, index) => PlantListListTile(plant: state.plants[index]),
           separatorBuilder: (BuildContext context, index) => const SizedBox(height: 8),

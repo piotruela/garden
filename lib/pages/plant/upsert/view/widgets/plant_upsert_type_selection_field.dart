@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:garden/common/widget/plant_type_label.dart';
+import 'package:garden/extensions.dart';
 import 'package:garden/model/plant/type/plant_type.dart';
 import 'package:garden/pages/plant/upsert/bloc/plant_upsert_bloc.dart';
 import 'package:garden/pages/plant/upsert/bloc/plant_upsert_state.dart';
@@ -23,7 +24,10 @@ class PlantUpsertTypeSelectionField extends StatelessWidget {
               return Column(
                 children: [
                   GestureDetector(
-                    onTap: () => context.read<PlantUpsertBloc>().add(PlantTypeSelected(plantType)),
+                    onTap: () {
+                      context.unFocus();
+                      context.read<PlantUpsertBloc>().add(PlantTypeSelected(plantType));
+                    },
                     child: PlantTypeLabel(
                       type: plantType,
                       isSelected: state.plantType == plantType,

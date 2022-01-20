@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:garden/common/constants/app_colors.dart';
 import 'package:garden/common/constants/app_text.dart';
 import 'package:garden/common/widget/plant_type_label.dart';
+import 'package:garden/extensions.dart';
 import 'package:garden/model/plant/plant.dart';
 import 'package:garden/pages/plant/list/bloc/plant_list_bloc.dart';
 import 'package:intl/intl.dart';
@@ -57,9 +58,9 @@ class _TileInitialsAvatar extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FittedBox(
-          fit: BoxFit.fill,
+          fit: BoxFit.fitHeight,
           child: Text(
-            (name.characters.first + name.characters.last).toUpperCase(),
+            (name.takeIf((it) => it.length == 1) ?? name.characters.first + name.characters.last).toUpperCase(),
             style: AppText.primaryText,
           ),
         ),
@@ -87,10 +88,11 @@ class _TileContent extends StatelessWidget {
           Text(
             name,
             style: AppText.primaryText.copyWith(fontSize: 16),
+            maxLines: 1,
           ),
           const SizedBox(height: 8),
           Text(
-            "Planted at ${DateFormat("dd/MM/yyyy").format(plantingDate)}",
+            "Planted at ${DateFormat.yMd().format(plantingDate)}",
             style: AppText.secondaryText,
           ),
           const SizedBox(height: 8),

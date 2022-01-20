@@ -3,13 +3,7 @@ import 'package:garden/model/plant/plant.dart';
 
 part 'plant_list_state.freezed.dart';
 
-enum PlantListStateType {
-  initial,
-  inProgress,
-  fetched,
-  successfullyAdded,
-  successfullyEdited,
-}
+enum UpsertType { insert, update }
 
 @freezed
 class PlantListState with _$PlantListState {
@@ -33,10 +27,11 @@ class PlantListState with _$PlantListState {
     String? searchText,
   }) = PlantListStateReachedEnd;
 
-  factory PlantListState.successfullyAdded({
+  factory PlantListState.upsertSuccess({
     @Default([]) List<Plant> plants,
     String? searchText,
     required Plant plant,
+    required UpsertType upsertType,
   }) = PlantListStateSuccessfullyAdded;
 
   factory PlantListState.upsertError({

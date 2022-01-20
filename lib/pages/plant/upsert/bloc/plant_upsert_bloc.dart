@@ -20,7 +20,6 @@ class PlantUpsertBloc extends Bloc<PlantUpsertEvent, PlantUpsertState> {
     Plant? existingPlant,
     required this.onPlantInserted,
   }) : super(PlantUpsertState(
-          type: PlantUpsertStateType.initial,
           plantId: existingPlant?.id,
           plantName: existingPlant?.name,
           plantType: existingPlant?.type,
@@ -57,7 +56,6 @@ class PlantUpsertBloc extends Bloc<PlantUpsertEvent, PlantUpsertState> {
     SaveButtonPressed event,
     Emitter<PlantUpsertState> emit,
   ) async {
-    emit(state.copyWith(type: PlantUpsertStateType.submitting));
     Either<DatabaseFailure, Plant> result;
     if (state.plantId != null) {
       result = await _plantService.updatePlant(_getPlantFromStateFields());
