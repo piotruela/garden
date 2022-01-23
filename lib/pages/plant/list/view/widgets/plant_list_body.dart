@@ -18,14 +18,14 @@ class PlantListBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return state.plants.isNotEmpty ? _PlantsListWidget(state: state) : const _EmptyListWidget();
+    return state.plants.isNotEmpty ? PlantsListWidget(state: state) : const EmptyPlantListWidget();
   }
 }
 
-class _PlantsListWidget extends StatelessWidget {
+class PlantsListWidget extends StatelessWidget {
   final PlantListState state;
 
-  const _PlantsListWidget({
+  const PlantsListWidget({
     Key? key,
     required this.state,
   }) : super(key: key);
@@ -55,8 +55,8 @@ class _PlantsListWidget extends StatelessWidget {
   }
 }
 
-class _EmptyListWidget extends StatelessWidget {
-  const _EmptyListWidget({Key? key}) : super(key: key);
+class EmptyPlantListWidget extends StatelessWidget {
+  const EmptyPlantListWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

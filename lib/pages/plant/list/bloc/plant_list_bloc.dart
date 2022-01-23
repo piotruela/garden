@@ -42,11 +42,12 @@ class PlantListBloc extends Bloc<PlantListEvent, PlantListState> {
     SearchTextChanged event,
     Emitter<PlantListState> emit,
   ) async {
+    emit(PlantListState.inProgress());
     final searchText = event.searchText.takeIf((it) => it.isNotEmpty);
     final result = await _plantService.getPlants(searchText: searchText, offset: 0);
     emit(
       result.fold(
-        (failure) => PlantListState.fetchingError(),
+        (failure) => PlantListState.fetchingError(searchText: searchText),
         (plantsList) => PlantListState.fetchedData(plants: plantsList, searchText: searchText),
       ),
     );
@@ -60,7 +61,7 @@ class PlantListBloc extends Bloc<PlantListEvent, PlantListState> {
     final result = await _plantService.getPlants(searchText: event.searchText, offset: state.plants.length);
     emit(
       result.fold(
-        (failure) => PlantListState.fetchingError(),
+        (failure) => PlantListState.fetchingError(plants: state.plants),
         (plantsList) => plantsList.isEmpty
             ? PlantListState.reachedEnd(searchText: state.searchText, plants: state.plants)
             : PlantListState.fetchedData(
